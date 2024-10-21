@@ -11,6 +11,9 @@ import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Represents a project entity in the system
+ */
 @Getter
 @Setter
 @Entity
@@ -28,11 +31,17 @@ public class Project {
 	private Date created_At;
 	private Date updated_At;
 	
+	/**
+	 * Sets the creation timestamp before the project is persisted.
+	 */
 	@PrePersist
 	protected void onCreate() {
 		this.created_At=new Date();
 	}
 	
+	/**
+	 * Sets the update timestamp before the project is updated.
+	 */
 	@PreUpdate
 	protected void onUpdate() {
 		this.updated_At=new Date();
@@ -41,7 +50,5 @@ public class Project {
 	public Project() {
 
 	}
-	
-	
 
 }
