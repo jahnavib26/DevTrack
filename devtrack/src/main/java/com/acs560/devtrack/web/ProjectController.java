@@ -22,6 +22,10 @@ import com.acs560.devtrack.services.ProjectService;
 
 import jakarta.validation.Valid;
 
+/**
+ * REST controller for managing Project resources.
+ * Provides an endpoint for creating a new project.
+ */
 @RestController
 @RequestMapping("/api/devtrack")
 public class ProjectController {
@@ -29,6 +33,15 @@ public class ProjectController {
 	@Autowired
 	private ProjectService projectService;
 	
+    /**
+     * Creates a new project.
+     * 
+     * @param project the Project entity to be created, validated with @Valid
+     * @param result  the BindingResult object to hold any validation errors
+     * @return ResponseEntity containing either the saved Project entity with
+     *         HTTP status 201 (CREATED) or a map of validation errors with
+     *         HTTP status 400 (BAD REQUEST)
+     */
 	@PostMapping("")
 	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project,BindingResult result) {
 
