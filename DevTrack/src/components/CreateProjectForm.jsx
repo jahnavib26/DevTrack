@@ -1,7 +1,9 @@
 // import React from 'react';
 import '../css/CreateProjectForm.css';
 
+// this is a functional component that renders the create project form
 const CreateProject = () => {
+  // return the create project form
   return (
     <div className="create-project-container">
       <h1>Create Project</h1>
