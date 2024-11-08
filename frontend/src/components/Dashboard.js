@@ -5,14 +5,15 @@ import { connect } from "react-redux";
 import { getProjects } from "../actions/projectActions";
 import PropTypes from "prop-types";
 
+// Dashboard component to display the projects on the dashboard page.
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getProjects();
   }
-
+  // Render the projects on the dashboard page.
   render() {
     const { projects } = this.props.project;
-
+    // Display the projects on the dashboard page.
     return (
       <div className="projects">
         <div className="container">
@@ -20,8 +21,9 @@ class Dashboard extends Component {
             <div className="col-md-12">
               <h1 className="display-4 text-center">Projects</h1>
               <br />
+              {/* Create a new project button */}
               <CreateProjectButton />
-
+              
               <br />
               <hr />
               {projects.map(project => (
@@ -34,16 +36,16 @@ class Dashboard extends Component {
     );
   }
 }
-
+// Define the properties of the Dashboard component.
 Dashboard.propTypes = {
   project: PropTypes.object.isRequired,
   getProjects: PropTypes.func.isRequired
 };
-
+// Map the state to the properties of the Dashboard component.
 const mapStateToProps = state => ({
   project: state.project
 });
-
+// Connect the Dashboard component to the Redux store.
 export default connect(
   mapStateToProps,
   { getProjects }

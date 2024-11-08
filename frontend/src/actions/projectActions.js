@@ -1,6 +1,7 @@
 import axios from "axios";
 import { GET_ERRORS, GET_PROJECTS, GET_PROJECT, DELETE_PROJECT } from "./types";
 
+// Create a new project action to create a new project.
 export const createProject = (project, history) => async dispatch => {
   try {
     await axios.post("/api/project", project);
@@ -17,6 +18,7 @@ export const createProject = (project, history) => async dispatch => {
   }
 };
 
+// Get all the projects action to get all the projects.
 export const getProjects = () => async dispatch => {
   const res = await axios.get("/api/project/all");
   dispatch({
@@ -25,6 +27,7 @@ export const getProjects = () => async dispatch => {
   });
 };
 
+// Get the project by project identifier (id).
 export const getProject = (id, history) => async dispatch => {
   try {
     const res = await axios.get(`/api/project/${id}`);
@@ -37,6 +40,7 @@ export const getProject = (id, history) => async dispatch => {
   }
 };
 
+// Delete the project by project identifier (id).
 export const deleteProject = id => async dispatch => {
   if (
     window.confirm(

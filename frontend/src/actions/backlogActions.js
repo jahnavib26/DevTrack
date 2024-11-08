@@ -13,8 +13,10 @@ export const addProjectTask = (
   history
 ) => async dispatch => {
   try {
+    // Send a POST request to the server to add a project task to the backlog.
     await axios.post(`/api/backlog/${backlog_id}`, project_task);
     history.push(`/projectBoard/${backlog_id}`);
+    // Clear the errors in the Redux store.
     dispatch({
       type: GET_ERRORS,
       payload: {}
@@ -27,6 +29,7 @@ export const addProjectTask = (
   }
 };
 
+// Get the backlog by project identifier (backlog_id)
 export const getBacklog = backlog_id => async dispatch => {
   try {
     const res = await axios.get(`/api/backlog/${backlog_id}`);
@@ -42,6 +45,7 @@ export const getBacklog = backlog_id => async dispatch => {
   }
 };
 
+// Get the project task by project sequence (pt_id)
 export const getProjectTask = (
   backlog_id,
   pt_id,
@@ -58,6 +62,7 @@ export const getProjectTask = (
   }
 };
 
+// Update the project task by project sequence (pt_id).
 export const updateProjectTask = (
   backlog_id,
   pt_id,
@@ -79,6 +84,7 @@ export const updateProjectTask = (
   }
 };
 
+// Delete the project task by project sequence (pt_id).
 export const deleteProjectTask = (backlog_id, pt_id) => async dispatch => {
   if (
     window.confirm(

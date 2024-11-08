@@ -3,8 +3,10 @@ import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
+// Create a new user action to create a new user.
 export const createNewUser = (newUser, history) => async dispatch => {
   try {
+    // post => Registration Request 
     await axios.post("/api/users/register", newUser);
     history.push("/login");
     dispatch({
@@ -19,6 +21,7 @@ export const createNewUser = (newUser, history) => async dispatch => {
   }
 };
 
+// Login action to login the user.
 export const login = LoginRequest => async dispatch => {
   try {
     // post => Login Request
@@ -44,6 +47,7 @@ export const login = LoginRequest => async dispatch => {
   }
 };
 
+// Logout action to logout the user.
 export const logout = () => dispatch => {
   localStorage.removeItem("jwtToken");
   setJWTToken(false);

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import { login } from "../../actions/securityActions";
 
+// Login component to handle the login form and submit the login request 
 class Login extends Component {
   constructor() {
     super();
@@ -12,6 +13,7 @@ class Login extends Component {
       password: "",
       errors: {}
     };
+    // Bind the functions to the class
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -22,6 +24,7 @@ class Login extends Component {
     }
   }
 
+  // Check for errors and redirect to the dashboard if the token is valid
   componentWillReceiveProps(nextProps) {
     if (nextProps.security.validToken) {
       this.props.history.push("/dashboard");
@@ -32,6 +35,7 @@ class Login extends Component {
     }
   }
 
+  // Handle the form submission
   onSubmit(e) {
     e.preventDefault();
     const LoginRequest = {
@@ -46,6 +50,7 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  // Render the login form
   render() {
     const { errors } = this.state;
     return (
@@ -95,6 +100,7 @@ class Login extends Component {
   }
 }
 
+// Define the prop types for the component
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
@@ -106,6 +112,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
+// Connect the component to the store
 export default connect(
   mapStateToProps,
   { login }
