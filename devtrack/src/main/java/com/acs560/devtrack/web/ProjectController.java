@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.acs560.devtrack.domain.Project;
 import com.acs560.devtrack.repositories.ProjectRepository;
+import com.acs560.devtrack.services.MapValidationErrorService;
 import com.acs560.devtrack.services.ProjectService;
 
 import jakarta.validation.Valid;
@@ -33,6 +34,9 @@ public class ProjectController {
 	@Autowired
 	private ProjectService projectService;
 	
+	@Autowired
+	private MapValidationErrorService mapValidationErrorService;
+	
     /**
      * Creates a new project.
      * 
@@ -44,15 +48,12 @@ public class ProjectController {
      */
 	@PostMapping("")
 	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project,BindingResult result) {
-
-	    if (result.hasErrors()) {
-	        System.out.println("Validation errors found: " + result.getAllErrors());
-	        Map<String, String> errorMap = new HashMap<>();
-	        for (FieldError error : result.getFieldErrors()) {
-	            errorMap.put(error.getField(), error.getDefaultMessage());
-	        }
-	        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
-	    }
+		
+		ResponseEntity<?> errorMap= mapValidationErrorService.MapValidationService(result);
+		
+		if(errorMap!=null) {
+			return errorMap;
+		}
 
 	    Project savedProject = projectService.saveOrUpdateProject(project);
 	    return new ResponseEntity<Project>(savedProject, HttpStatus.CREATED);
