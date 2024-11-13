@@ -3,6 +3,7 @@ import { createNewUser } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
+import { Link } from 'react-router-dom';  // Import Link
 
 // Register component to handle the registration form and submit the registration request
 class Register extends Component {
@@ -19,21 +20,19 @@ class Register extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  // Check for errors and redirect to the dashboard if the token is valid
+
   componentDidMount() {
     if (this.props.security.validToken) {
       this.props.history.push("/dashboard");
     }
   }
 
-  // Check for errors and redirect to the dashboard if the token is valid
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
   }
 
-  // Handle the form submission
   onSubmit(e) {
     e.preventDefault();
     const newUser = {
@@ -46,12 +45,10 @@ class Register extends Component {
     this.props.createNewUser(newUser, this.props.history);
   }
 
-  // Handle the form submission
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  // Render the registration form
   render() {
     const { errors } = this.state;
     return (
@@ -126,6 +123,10 @@ class Register extends Component {
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
+              {/* Link to the login page */}
+              <p className="text-center mt-3">
+                Already have an account? <Link to="/login">Log in here</Link>
+              </p>
             </div>
           </div>
         </div>
@@ -134,14 +135,12 @@ class Register extends Component {
   }
 }
 
-// Define the proptypes for the Register component
 Register.propTypes = {
   createNewUser: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   security: PropTypes.object.isRequired
 };
 
-// Connect the component to the store
 const mapStateToProps = state => ({
   errors: state.errors,
   security: state.security

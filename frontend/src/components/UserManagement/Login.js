@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { login } from "../../actions/securityActions";
+import { Link } from 'react-router-dom';  // Import Link
 
 // Login component to handle the login form and submit the login request 
 class Login extends Component {
@@ -92,6 +93,10 @@ class Login extends Component {
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
+              {/* Link to the sign-up page */}
+              <p className="text-center mt-3">
+                Don't have an account? <Link to="/register">Sign up here</Link>
+              </p>
             </div>
           </div>
         </div>
