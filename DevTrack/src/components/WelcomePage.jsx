@@ -1,35 +1,62 @@
-// import React from 'react';
-import { Link } from 'react-router-dom';
-import '../css/WelcomePage.css';
-// this is a functional component that renders the welcome page
-const WelcomePage = () => {
-  // return the welcome page
+import { useState } from 'react';
+import './welcome_page.css';
+
+function WelcomePage() {
+  const [highContrast, setHighContrast] = useState(false);
+
+  const handleCreateProject = () => {
+    // Your project creation logic here
+    console.log('Creating project...');
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleCreateProject();
+    }
+  };
+
+  const toggleHighContrast = () => {
+    setHighContrast(!highContrast);
+    document.body.classList.toggle('high-contrast-mode', !highContrast);
+  };
+
   return (
-    <div className="app-container">
-      <header className="header">
-        <h1>Welcome to DevTrack!</h1>
-        <p className="tagline">Your Journey to Organized and Efficient Projects Starts Here</p>
+    <div className={`welcome-page ${highContrast ? 'high-contrast' : ''}`}>
+      <header>
+        <h1>Welcome to DevTrack</h1>
+        <button 
+          aria-label="Toggle High Contrast Mode" 
+          onClick={toggleHighContrast} 
+          className="toggle-contrast"
+        >
+          Toggle High Contrast
+        </button>
       </header>
 
-      <main className="welcome-content">
-        <p className="welcome-message">
-          DevTrack is designed to streamline your workflow, track progress, and ensure
-          no task falls through the cracks. Whether you’re managing a team project or
-          working on personal goals, DevTrack has everything you need to stay on track.
-        </p>
-        {/* TODO: Link to the login page before going to create project page */}
-        <Link to="/create-project">
-          <button className="login-button">
-            Create Project
-          </button>
-        </Link>
+      <main>
+        <button 
+          aria-label="Create New Project" 
+          role="button" 
+          onClick={handleCreateProject}
+          onKeyPress={handleKeyPress}
+          className="create-project-btn"
+        >
+          <span aria-hidden="true">+</span> Create Project
+        </button>
+        
+        <div 
+          role="button" 
+          tabIndex="0" 
+          aria-label="Learn More About DevTrack" 
+          onClick={() => console.log('Learn more clicked')}
+          onKeyPress={(e) => { if (e.key === 'Enter') console.log('Learn more clicked'); }}
+          className="learn-more-btn"
+        >
+          Learn More
+        </div>
       </main>
-      {/* TODO: Should create a component that can be import as footer  */}
-      <footer className="footer">
-        <p>© 2024 DevTrack. All rights reserved.</p>
-      </footer>
     </div>
   );
-};
+}
 
 export default WelcomePage;
