@@ -62,6 +62,13 @@ public class ProjectController {
 	    return new ResponseEntity<Project>(savedProject, HttpStatus.CREATED);
 	}
 	
+    /**
+     * Retrieves a Project by its identifier.
+     *
+     * @param projectId the identifier of the Project to be retrieved
+     * @return ResponseEntity containing the Project entity with HTTP status 200 (OK)
+     */
+	
 	@GetMapping("/{projectId}")
 	public ResponseEntity<?> getProjectById(@PathVariable String projectId){
 		
@@ -71,10 +78,21 @@ public class ProjectController {
 		
 	}
 	
+    /**
+     * Retrieves all Projects.
+     *
+     * @return an iterable collection of Project entities with HTTP status 200 (OK)
+     */
 	@GetMapping("/all")
 	public Iterable<Project> getAllProjects(){
 		return projectService.findAllProjects();
 	}
+	
+	 /**
+     * Deletes a Project by its identifier.
+     * @param projectId the identifier of the Project to be deleted
+     * @return ResponseEntity with a confirmation message and HTTP status 200 (OK)
+     */
 	
 	@DeleteMapping("/{projectId}")
 	public ResponseEntity<?> deleteProject(@PathVariable String projectId){
