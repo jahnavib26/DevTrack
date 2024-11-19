@@ -32,6 +32,13 @@ public class ProjectService {
 		}
 	}
 	
+    /**
+     * Finds a Project by its identifier.
+     * @param projectId the identifier of the Project to be retrieved
+     * @return the Project entity with the given identifier
+     * @throws ProjectIdException if no project with the given identifier is found
+     */
+	
 	public Project findProjectByIdentifier(String projectId) {
 		
 		Project project=projectRepository.findByProjectIdentifier(projectId.toUpperCase());
@@ -43,10 +50,20 @@ public class ProjectService {
 		return project;
 	}
 	
+    /**
+     * Retrieves all Project entities from the repository.
+     * 
+     * @return an iterable collection of all Project entities
+     */
 	public Iterable<Project> findAllProjects(){
 		return projectRepository.findAll();
 	}
 	
+    /**
+     * Deletes a Project by its identifier.
+     * @param projectId the identifier of the Project to be deleted
+     * @throws ProjectIdException if no project with the given identifier is found
+     */
 	public void deleteProjectByIdentifier(String projectId) {
 		Project project=projectRepository.findByProjectIdentifier(projectId);
 		
