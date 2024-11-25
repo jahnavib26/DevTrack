@@ -4,12 +4,16 @@ import java.util.Date;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotBlank;
@@ -45,6 +49,10 @@ public class Project {
 	private Date created_At;
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date updated_At;
+	
+	@OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="project")
+	@JsonIgnore
+	private Backlog backlog;
 	
 	/**
 	 * Sets the creation timestamp before the project is persisted.
