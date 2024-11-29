@@ -1,7 +1,7 @@
 package com.acs560.devtrack.Exceptions;
 
 public class ProjectIdExceptionResponse {
-	
+
 	private String projectIdentifier;
 
     /**
@@ -12,7 +12,7 @@ public class ProjectIdExceptionResponse {
 	public ProjectIdExceptionResponse(String projectIdentifier) {
 		this.projectIdentifier = projectIdentifier;
 	}
-	
+
     /**
      * Gets the project identifier that caused the exception.
      *
@@ -21,7 +21,7 @@ public class ProjectIdExceptionResponse {
 	public String getProjectIdentifier() {
 		return projectIdentifier;
 	}
-	
+
     /**
      * Sets the project identifier that caused the exception.
      *
@@ -30,7 +30,7 @@ public class ProjectIdExceptionResponse {
 	public void setProjectIdentifier(String projectIdentifier) {
 		this.projectIdentifier = projectIdentifier;
 	}
-	
-	
+
+
 
 }

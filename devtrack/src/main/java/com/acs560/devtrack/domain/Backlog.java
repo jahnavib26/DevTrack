@@ -21,24 +21,24 @@ import lombok.Setter;
 @Getter
 @Entity
 public class Backlog {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private Integer PTSequence=0;
 	private String projectIdentifier;
-	
+
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="project_id",nullable=false)
 	@JsonIgnore
 	private Project project;
-	
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="backlog")
+
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.REFRESH,mappedBy="backlog",orphanRemoval=true)
 	private List<ProjectTask> projectTasks=new ArrayList<>();
-	
+
 	public Backlog() {
-		
+
 	}
-	
+
 
 }

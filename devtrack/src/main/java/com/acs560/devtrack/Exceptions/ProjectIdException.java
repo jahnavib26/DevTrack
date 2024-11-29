@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ProjectIdException extends RuntimeException{
-	
+
     /**
      * Constructs a new {@code ProjectIdException} with the specified detail message.
      *
