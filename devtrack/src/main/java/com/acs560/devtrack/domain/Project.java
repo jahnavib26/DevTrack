@@ -2,7 +2,6 @@ package com.acs560.devtrack.domain;
 
 import java.util.Date;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,7 +27,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Project {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -44,16 +43,16 @@ public class Project {
 	private Date start_date;
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date end_date;
-	
+
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date created_At;
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date updated_At;
-	
+
 	@OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="project")
 	@JsonIgnore
 	private Backlog backlog;
-	
+
 	/**
 	 * Sets the creation timestamp before the project is persisted.
 	 */
@@ -62,7 +61,7 @@ public class Project {
 		 System.out.println("Setting created_At date");
 		this.created_At=new Date();
 	}
-	
+
 	/**
 	 * Sets the update timestamp before the project is updated.
 	 */

@@ -1,16 +1,9 @@
 package com.acs560.devtrack.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acs560.devtrack.domain.Project;
-import com.acs560.devtrack.repositories.ProjectRepository;
 import com.acs560.devtrack.services.MapValidationErrorService;
 import com.acs560.devtrack.services.ProjectService;
 
@@ -33,16 +25,16 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/devtrack")
 public class ProjectController {
-	
+
 	@Autowired
 	private ProjectService projectService;
-	
+
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
-	
+
     /**
      * Creates a new project.
-     * 
+     *
      * @param project the Project entity to be created, validated with @Valid
      * @param result  the BindingResult object to hold any validation errors
      * @return ResponseEntity containing either the saved Project entity with
@@ -51,33 +43,33 @@ public class ProjectController {
      */
 	@PostMapping("")
 	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project,BindingResult result) {
-		
+
 		ResponseEntity<?> errorMap= mapValidationErrorService.MapValidationService(result);
-		
+
 		if(errorMap!=null) {
 			return errorMap;
 		}
 
 	    Project savedProject = projectService.saveOrUpdateProject(project);
-	    return new ResponseEntity<Project>(savedProject, HttpStatus.CREATED);
+	    return new ResponseEntity<>(savedProject, HttpStatus.CREATED);
 	}
-	
+
     /**
      * Retrieves a Project by its identifier.
      *
      * @param projectId the identifier of the Project to be retrieved
      * @return ResponseEntity containing the Project entity with HTTP status 200 (OK)
      */
-	
+
 	@GetMapping("/{projectId}")
 	public ResponseEntity<?> getProjectById(@PathVariable String projectId){
-		
+
 		Project project=projectService.findProjectByIdentifier(projectId);
-		
-		return new ResponseEntity<Project>(project,HttpStatus.OK);
-		
+
+		return new ResponseEntity<>(project,HttpStatus.OK);
+
 	}
-	
+
     /**
      * Retrieves all Projects.
      *
@@ -87,21 +79,21 @@ public class ProjectController {
 	public Iterable<Project> getAllProjects(){
 		return projectService.findAllProjects();
 	}
-	
+
 	 /**
      * Deletes a Project by its identifier.
      * @param projectId the identifier of the Project to be deleted
      * @return ResponseEntity with a confirmation message and HTTP status 200 (OK)
      */
-	
+
 	@DeleteMapping("/{projectId}")
 	public ResponseEntity<?> deleteProject(@PathVariable String projectId){
 		projectService.deleteProjectByIdentifier(projectId.toUpperCase());
-		
-		return new ResponseEntity<String>("Project with ID '"+projectId+"' is deleted.",HttpStatus.OK);
+
+		return new ResponseEntity<>("Project with ID '"+projectId+"' is deleted.",HttpStatus.OK);
 	}
-	
-	
+
+
 
 
 }
