@@ -3,15 +3,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
- 
+
 // Actions
 import { getProject, createProject } from '../../actions/projectActions';
- 
-function UpdateProject({
-  getProject,
-  createProject,
-  project,
-  errors
+
+function UpdateProject({ 
+  getProject, 
+  createProject, 
+  project, 
+  errors 
 }) {
   const [projectState, setProjectState] = useState({
     id: '',
@@ -21,10 +21,10 @@ function UpdateProject({
     start_date: '',
     end_date: ''
   });
- 
+
   const { id } = useParams();
   const navigate = useNavigate();
- 
+
   // Similar to componentWillReceiveProps
   useEffect(() => {
     // When project is loaded from Redux, update local state
@@ -39,22 +39,22 @@ function UpdateProject({
       });
     }
   }, [project]);
- 
+
   // Initial project load
   useEffect(() => {
     getProject(id, navigate);
   }, [id, getProject, navigate]);
- 
+
   const onChange = (e) => {
     setProjectState({
       ...projectState,
       [e.target.name]: e.target.value
     });
   };
- 
+
   const onSubmit = (e) => {
     e.preventDefault();
- 
+
     const updateProject = {
       id: projectState.id,
       projectName: projectState.projectName,
@@ -63,10 +63,10 @@ function UpdateProject({
       start_date: projectState.start_date,
       end_date: projectState.end_date
     };
- 
+
     createProject(updateProject, navigate);
   };
- 
+
   return (
     <div className="project">
       <div className="container">
@@ -135,7 +135,7 @@ function UpdateProject({
                   onChange={onChange}
                 />
               </div>
- 
+
               <input
                 type="submit"
                 className="btn btn-primary btn-block mt-4"
@@ -147,21 +147,20 @@ function UpdateProject({
     </div>
   );
 }
- 
+
 UpdateProject.propTypes = {
   getProject: PropTypes.func.isRequired,
   createProject: PropTypes.func.isRequired,
   project: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
- 
+
 const mapStateToProps = state => ({
   project: state.project.project,
   errors: state.errors
 });
- 
+
 export default connect(
   mapStateToProps,
   { getProject, createProject }
 )(UpdateProject);
-has context menu

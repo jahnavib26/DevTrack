@@ -22,7 +22,7 @@ export const addProjectTask = (
   } catch (err) {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: err.response ? err.response.data : { message: "Network Error" }
     });
   }
 };
@@ -37,7 +37,7 @@ export const getBacklog = backlog_id => async dispatch => {
   } catch (err) {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+     payload: err.response ? err.response.data : { message: "Network Error" }
     });
   }
 };
@@ -74,7 +74,7 @@ export const updateProjectTask = (
   } catch (err) {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: err.response ? err.response.data : { message: "Network Error" }
     });
   }
 };

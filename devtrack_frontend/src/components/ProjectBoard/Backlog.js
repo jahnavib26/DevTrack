@@ -5,27 +5,24 @@ class Backlog extends Component {
   render() {
     const { project_tasks_prop } = this.props;
 
-    const tasks = project_tasks_prop.map(project_task => (
-      <ProjectTask key={project_task.id} project_task={project_task} />
-    ));
+    // Use the original project_tasks instead of mapping first
+    const todoItems = project_tasks_prop
+      .filter(project_task => project_task.status === "TO_DO")
+      .map(project_task => (
+        <ProjectTask key={project_task.id} project_task={project_task} />
+      ));
 
-    let todoItems = [];
-    let inProgressItems = [];
-    let doneItems = [];
+    const inProgressItems = project_tasks_prop
+      .filter(project_task => project_task.status === "IN_PROGRESS")
+      .map(project_task => (
+        <ProjectTask key={project_task.id} project_task={project_task} />
+      ));
 
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].props.project_task.status === "TO_DO") {
-        todoItems.push(tasks[i]);
-      }
-
-      if (tasks[i].props.project_task.status === "IN_PROGRESS") {
-        inProgressItems.push(tasks[i]);
-      }
-
-      if (tasks[i].props.project_task.status === "DONE") {
-        doneItems.push(tasks[i]);
-      }
-    }
+    const doneItems = project_tasks_prop
+      .filter(project_task => project_task.status === "DONE")
+      .map(project_task => (
+        <ProjectTask key={project_task.id} project_task={project_task} />
+      ));
 
     return (
       <div className="container">
@@ -37,9 +34,6 @@ class Backlog extends Component {
               </div>
             </div>
             {todoItems}
-            {
-              // insert tasks here
-            }
           </div>
           <div className="col-md-4">
             <div className="card text-center mb-2">

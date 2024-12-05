@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   getProjectTask,
   updateProjectTask
 } from "../../../actions/backlogActions";
 import PropTypes from "prop-types";
+
+// Functional wrapper to use `useParams` with the class component
+function UpdateProjectTaskWrapper(props) {
+  const { backlog_id, pt_id } = useParams();
+  return <UpdateProjectTask {...props} params={{ backlog_id, pt_id }} />;
+}
 
 class UpdateProjectTask extends Component {
   constructor() {
@@ -29,7 +35,7 @@ class UpdateProjectTask extends Component {
   }
 
   componentDidMount() {
-    const { backlog_id, pt_id } = this.props.match.params;
+    const { backlog_id, pt_id } = this.props.params;
     this.props.getProjectTask(backlog_id, pt_id, this.props.history);
   }
 
@@ -82,7 +88,6 @@ class UpdateProjectTask extends Component {
       create_At: this.state.create_At
     };
 
-    // console.log(UpdateProjectTask);
     this.props.updateProjectTask(
       this.state.projectIdentifier,
       this.state.projectSequence,
@@ -200,4 +205,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getProjectTask, updateProjectTask }
-)(UpdateProjectTask);
+)(UpdateProjectTaskWrapper);
