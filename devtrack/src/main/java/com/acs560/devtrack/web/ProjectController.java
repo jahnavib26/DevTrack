@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
  * Provides an endpoint for creating a new project.
  */
 @RestController
-@RequestMapping("/api/devtrack")
+@RequestMapping("/api/project")
 public class ProjectController {
 
 	@Autowired
