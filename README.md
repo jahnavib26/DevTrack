@@ -50,6 +50,8 @@ The entire application is Dockerized and utilizes Docker Compose to create three
 
 ### MySQL
 
+Docker Compose will bring up MySQL server of its own. So the port 3360 should be empty. if not it will throw error. So run the MySQL stop (below) cmd to stop the locally running MySQL.
+
 - Start MySQL server:
   ```bash
   sudo /usr/local/mysql/support-files/mysql.server start
