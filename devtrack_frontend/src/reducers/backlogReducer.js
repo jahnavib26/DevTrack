@@ -1,16 +1,19 @@
+// Importing action types from a types file
 import {
     GET_BACKLOG,
     GET_PROJECT_TASK,
     DELETE_PROJECT_TASK
   } from "../actions/types";
   
+  // Define the initial state of the backlog reducer
   const initialState = {
     project_tasks: [],
     project_task: {}
   };
   
+  // Define the reducer function with initial state and action parameter
   export default function backlogReducer(state = initialState, action) {
-    switch (action.type) {
+    switch (action.type) { // Handle different action types
       case GET_BACKLOG:
         return {
           ...state,
@@ -32,6 +35,6 @@ import {
         };
   
       default:
-        return state;
+        return state; // If the action type doesn't match any case, return the current state unchanged
     }
   }

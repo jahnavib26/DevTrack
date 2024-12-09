@@ -5,7 +5,7 @@ class Backlog extends Component {
   render() {
     const { project_tasks_prop } = this.props;
 
-    // Use the original project_tasks instead of mapping first
+  // Filter tasks based on status and map each task to a ProjectTask component
     const todoItems = project_tasks_prop
       .filter(project_task => project_task.status === "TO_DO")
       .map(project_task => (
@@ -57,4 +57,5 @@ class Backlog extends Component {
   }
 }
 
+// Export the Backlog component to use it elsewhere in the app
 export default Backlog;

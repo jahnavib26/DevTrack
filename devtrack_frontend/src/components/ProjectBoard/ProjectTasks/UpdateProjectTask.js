@@ -9,6 +9,7 @@ const UpdateProjectTask = ({ getProjectTask, updateProjectTask, project_task, er
   const { backlog_id, pt_id } = useParams();
   const navigate = useNavigate();
 
+  // State to hold form data and error information
   const [state, setState] = useState({
     id: "",
     projectSequence: "",
@@ -35,6 +36,7 @@ const UpdateProjectTask = ({ getProjectTask, updateProjectTask, project_task, er
     }
 
     if (project_task) {
+      // Destructures and sets project task data to state
       const {
         id,
         projectSequence,
@@ -62,40 +64,12 @@ const UpdateProjectTask = ({ getProjectTask, updateProjectTask, project_task, er
     }
   }, [project_task,errors]);
 
-  // useEffect(() => {
-  //   // Check if there are no errors
-  //   if (Object.keys(errors).length === 0 && state.summary !== "") {
-  //     setState((prevState) => ({ ...prevState, showSuccessPopup: true }));
-  //   } else {
-  //     setState((prevState) => ({ ...prevState, showSuccessPopup: false }));
-  //   }
-  // }, [errors, state.summary]);
-
-  // Trigger success popup when there are no errors and summary is not empty
-  // useEffect(() => {
-  //   if (!state.errors || Object.keys(state.errors).length === 0) {
-  //     if (state.summary) {
-  //       setState((prevState) => ({ ...prevState, showSuccessPopup: true }));
-  //     }
-  //   }
-  // }, [errors]);
-
-  // useEffect(() => {
-  //   if (Object.keys(errors).length === 0 && state.summary!== "") {
-  //     // If there are no errors, show success popup
-  //     setState((prevState) => ({ ...prevState, showSuccessPopup: true }));
-  //   } 
-  //   console.log("*****************");
-  //   console.log(errors);
-  //   setState({
-  //     errors: errors
-  //   });
-  // }, [errors]);
-
+  // Handles input changes in form fields
   const onChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
+    // Handles form submission
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -111,6 +85,7 @@ const UpdateProjectTask = ({ getProjectTask, updateProjectTask, project_task, er
       create_At: state.create_At,
     };
 
+     // Dispatch the updateProjectTask action with form data
     updateProjectTask(state.projectIdentifier, state.projectSequence, updatedTask, navigate);
 
       // Check if there are no errors after submitting the form
@@ -121,11 +96,13 @@ const UpdateProjectTask = ({ getProjectTask, updateProjectTask, project_task, er
   }
   };
 
+  // Closes the success popup and navigates to the project board
   const handlePopupClose = () => {
     setState({ ...state, showSuccessPopup: false });
     navigate(`/projectBoard/${state.projectIdentifier}`);
   };
 
+  // Extracting state values for easy access in JSX
   const { showSuccessPopup, summary, acceptanceCriteria, dueDate, priority, status, errors: stateErrors } = state;
 
   return (
@@ -217,7 +194,7 @@ const UpdateProjectTask = ({ getProjectTask, updateProjectTask, project_task, er
   );
 };
 
-
+// PropTypes for validating component props
 UpdateProjectTask.propTypes = {
   getProjectTask: PropTypes.func.isRequired,
   updateProjectTask: PropTypes.func.isRequired,
@@ -225,6 +202,7 @@ UpdateProjectTask.propTypes = {
   errors: PropTypes.object.isRequired,
 };
 
+// mapStateToProps maps Redux state to props
 const mapStateToProps = (state) => ({
   project_task: state.backlog.project_task,
   errors: state.errors,

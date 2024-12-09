@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import { createProject } from "../../actions/projectActions";
 import classnames from "classnames";
 
+// AddProject component for creating a new project
 const AddProject = ({ createProject, errors }) => {
+  // State for form data
   const [formData, setFormData] = useState({
     projectName: "",
     projectIdentifier: "",
@@ -14,29 +16,33 @@ const AddProject = ({ createProject, errors }) => {
     end_date: ""
   });
 
+    // State for form errors
   const [formErrors, setFormErrors] = useState({});
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-  const navigate = useNavigate(); // Use navigate instead of history
+  const navigate = useNavigate(); 
 
+  // useEffect to update form errors and display success popup if necessary
   useEffect(() => {
     if (errors) {
       if (Object.keys(errors).length === 0 && formData.description!== "" && formData.projectIdentifier!== "" && formData.projectName!== "") {
-        // Show the error popup
         setShowSuccessPopup(true);
       }
       setFormErrors(errors);
     }
   }, [errors]);
 
+  // Handle form field changes
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+    // Handle form submission
   const onSubmit = (e) => {
     e.preventDefault();
     createProject(formData);
   };
 
+    // Close the success popup and reset the form
   const handlePopupClose = () => {
     // Clear form data
     setFormData({
@@ -157,11 +163,13 @@ const AddProject = ({ createProject, errors }) => {
   );
 };
 
+// Prop type validation for component props
 AddProject.propTypes = {
   createProject: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired
 };
 
+// Map Redux state to component props
 const mapStateToProps = (state) => ({
   errors: state.errors
 });

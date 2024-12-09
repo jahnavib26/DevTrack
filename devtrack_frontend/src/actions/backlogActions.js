@@ -1,3 +1,11 @@
+/**
+ * Adds a project task to the backlog.
+ *
+ * @param {string} backlog_id - The ID of the backlog.
+ * @param {Object} project_task - The project task to add.
+ * @param {Object} history - The history object for navigation.
+ * @returns {Function} A Redux thunk action.
+ */
 import axios from "axios";
 import {
   GET_ERRORS,
@@ -6,7 +14,14 @@ import {
   DELETE_PROJECT_TASK
 } from "./types";
 
-//Fix bug with priority in Spring Boot Server, needs to check null first
+/**
+ * Adds a project task to the backlog.
+ *
+ * @param {string} backlog_id - The ID of the backlog.
+ * @param {Object} project_task - The project task to add.
+ * @param {Object} history - The history object for navigation.
+ * @returns {Function} A Redux thunk action.
+ */
 export const addProjectTask = (
   backlog_id,
   project_task,
@@ -15,8 +30,6 @@ export const addProjectTask = (
   try {
     await axios.post(`/api/backlog/${backlog_id}`, project_task);
     history.push(`/projectBoard/${backlog_id}`);
-    console.log("*****************");
-    console.log(history);
     dispatch({
       type: GET_ERRORS,
       payload: {}
@@ -29,6 +42,12 @@ export const addProjectTask = (
   }
 };
 
+/**
+ * Fetches the backlog by ID.
+ *
+ * @param {string} backlog_id - The ID of the backlog.
+ * @returns {Function} A Redux thunk action.
+ */
 export const getBacklog = backlog_id => async dispatch => {
   try {
     const res = await axios.get(`/api/backlog/${backlog_id}`);
@@ -44,14 +63,21 @@ export const getBacklog = backlog_id => async dispatch => {
   }
 };
 
+
+/**
+ * Fetches a specific project task by ID.
+ *
+ * @param {string} backlog_id - The ID of the backlog.
+ * @param {string} pt_id - The ID of the project task.
+ * @param {Object} history - The history object for navigation.
+ * @returns {Function} A Redux thunk action.
+ */
 export const getProjectTask = (
   backlog_id,
   pt_id,
   history
 ) => async dispatch => {
   try {
-    console.log("##########")
-    console.log(backlog_id);
     const res = await axios.get(`/api/backlog/${backlog_id}/${pt_id}`);
     dispatch({
       type: GET_PROJECT_TASK,
@@ -64,6 +90,15 @@ export const getProjectTask = (
   }
 };
 
+/**
+ * Updates a project task.
+ *
+ * @param {string} backlog_id - The ID of the backlog.
+ * @param {string} pt_id - The ID of the project task.
+ * @param {Object} project_task - The updated project task data.
+ * @param {Object} history - The history object for navigation.
+ * @returns {Function} A Redux thunk action.
+ */
 export const updateProjectTask = (
   backlog_id,
   pt_id,
@@ -71,8 +106,6 @@ export const updateProjectTask = (
   history
 ) => async dispatch => {
   try {
-    console.log("*****************");
-    console.log(backlog_id);
     await axios.patch(`/api/backlog/${backlog_id}/${pt_id}`, project_task);
     history.push(`/projectBoard/${backlog_id}`);
     dispatch({
@@ -88,6 +121,13 @@ export const updateProjectTask = (
   }
 };
 
+/**
+ * Deletes a project task.
+ *
+ * @param {string} backlog_id - The ID of the backlog.
+ * @param {string} pt_id - The ID of the project task to delete.
+ * @returns {Function} A Redux thunk action.
+ */
 export const deleteProjectTask = (backlog_id, pt_id) => async dispatch => {
   if (
     window.confirm(
