@@ -22,8 +22,13 @@ function UpdateProject({
     end_date: ''
   });
 
+
+  // const [formErrors, setFormErrors] = useState({});
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const navigate = useNavigate(); // Use navigate instead of history
+
   const { id } = useParams();
-  const navigate = useNavigate();
+
 
   // Similar to componentWillReceiveProps
   useEffect(() => {
@@ -52,6 +57,16 @@ function UpdateProject({
     });
   };
 
+  useEffect(() => {
+    if (errors) {
+ if (Object.keys(errors).length === 0 && projectState.description!== "" && projectState.projectIdentifier!== "" && projectState.projectName!== "") {
+  // Show the error popup
+  setShowSuccessPopup(true);
+}
+    }
+  }, [errors]);
+
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -65,6 +80,22 @@ function UpdateProject({
     };
 
     createProject(updateProject, navigate);
+    // setShowSuccessPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    // Clear form data
+    setProjectState({
+      projectName: "",
+      projectIdentifier: "",
+      description: "",
+      start_date: "",
+      end_date: ""
+    });
+    setShowSuccessPopup(false);
+
+    // Redirect to Dashboard
+    navigate("/dashboard");
   };
 
   return (
@@ -144,7 +175,20 @@ function UpdateProject({
           </div>
         </div>
       </div>
+                {/* Success Popup */}
+                {showSuccessPopup && (
+            <div className="popup">
+              <div className="popup-inner">
+                <h3>Project Updated Successfully!</h3>
+                <button onClick={handlePopupClose} className="btn btn-success">
+                  OK
+                </button>
+              </div>
+            </div>
+          )}
     </div>
+
+
   );
 }
 

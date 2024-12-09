@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { addProjectTask } from "../../../actions/backlogActions";
@@ -8,6 +8,8 @@ import classnames from "classnames";
 const AddProjectTask = ({ addProjectTask, errors }) => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const [state, setState] = useState({
     summary: "",
@@ -22,6 +24,19 @@ const AddProjectTask = ({ addProjectTask, errors }) => {
   const onChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
+
+  const handlePopupClose = () => {
+    setShowSuccessPopup(false);
+    // Redirect to Dashboard
+    navigate(`/projectBoard/${id}`);
+  };
+
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && state.summary!== "") {
+      // If there are no errors, show success popup
+      setShowSuccessPopup(true);
+    } 
+  }, [errors]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -103,6 +118,17 @@ const AddProjectTask = ({ addProjectTask, errors }) => {
           </div>
         </div>
       </div>
+            {/* Success Popup */}
+            {showSuccessPopup && (
+          <div className="popup">
+            <div className="popup-inner">
+              <h3>Project Task Added Successfully!</h3>
+              <button onClick={handlePopupClose} className="btn btn-success">
+                OK
+              </button>
+        </div>
+  </div>
+)}
     </div>
   );
 };
