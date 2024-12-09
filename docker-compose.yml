@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: devtrack-mysql
+    environment:
+      # MYSQL_ROOT_PASSWORD: adit2264
+      # MYSQL_USER: root
+      # MYSQL_PASSWORD: adit2264
+      # MYSQL_DATABASE: devtrackdb
+      MYSQL_ROOT_PASSWORD: adit2264
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - devtrack-network
+
+  springboot:
+    build:
+      context: ./devtrack # Path to the folder containing the Dockerfile
+      dockerfile: Dockerfile # Dockerfile name (optional if it's named 'Dockerfile')
+    container_name: devtrack-app
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      # SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devtrack
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devtrack?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: adit2264
+    networks:
+      - devtrack-network
+
+  frontend:
+    build:
+      context: ./devtrack_frontend # Path to the frontend Dockerfile
+      dockerfile: Dockerfile # Dockerfile name inside 'devtrack-frontend'
+    container_name: devtrack-frontend
+    depends_on:
+      - springboot
+    ports:
+      - "3000:3000"
+    networks:
+      - devtrack-network
+
+volumes:
+  mysql_data:
+
+networks:
+  devtrack-network:
