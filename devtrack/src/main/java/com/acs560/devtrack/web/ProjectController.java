@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.acs560.devtrack.domain.Project;
+import com.acs560.devtrack.services.ETLService;
 import com.acs560.devtrack.services.MapValidationErrorService;
 import com.acs560.devtrack.services.ProjectService;
 
@@ -31,6 +34,25 @@ public class ProjectController {
 
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
+	
+	
+    @Autowired
+    private ETLService etlService;
+
+    /**
+     * Endpoint to upload a CSV file and process it.
+     * @param file the CSV file containing project data
+     * @return ResponseEntity with a success message
+     */
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            etlService.etlProcess(file);  // Process the file (ETL logic)
+            return ResponseEntity.ok("File uploaded and data processed successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error processing the file: " + e.getMessage());
+        }
+    }
 
     /**
      * Creates a new project.
