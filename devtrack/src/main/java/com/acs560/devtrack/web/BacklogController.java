@@ -1,6 +1,11 @@
 package com.acs560.devtrack.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -25,37 +30,47 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/backlog")
 @CrossOrigin
 public class BacklogController {
-
 	@Autowired
 	private ProjectTaskService projectTaskService;
 
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 
+//	@PostMapping("/{backlog_id}")
+//	public ResponseEntity<?> addPTtoBacklog(@Valid @RequestBody ProjectTask projectTask,BindingResult result, @PathVariable String backlog_id){
+//
+//		ResponseEntity<?> errorMap=mapValidationErrorService.MapValidationService(result);
+//
+//		if (errorMap!=null) {
+//			return errorMap;
+//		}
+//
+//		ProjectTask projectTask1=projectTaskService.addProjectTask(backlog_id, projectTask);
+//		return new ResponseEntity<>(projectTask1,HttpStatus.CREATED);
+//
+//	}
 	@PostMapping("/{backlog_id}")
-	public ResponseEntity<?> addPTtoBacklog(@Valid @RequestBody ProjectTask projectTask,BindingResult result, @PathVariable String backlog_id){
+	public ResponseEntity<?> addPTtoBacklog(@Valid @RequestBody ProjectTask projectTask, BindingResult result, @PathVariable String backlog_id) {
+		
+	    ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+	    if (errorMap != null) {
+	        return errorMap;
+	    }
 
-		ResponseEntity<?> errorMap=mapValidationErrorService.MapValidationService(result);
-
-		if (errorMap!=null) {
-			return errorMap;
-		}
-
-		ProjectTask projectTask1=projectTaskService.addProjectTask(backlog_id, projectTask);
-		return new ResponseEntity<>(projectTask1,HttpStatus.CREATED);
-
+	    ProjectTask projectTasks = projectTaskService.addProjectTask(backlog_id, projectTask);
+	    return new ResponseEntity<>(projectTasks, HttpStatus.CREATED);
 	}
+
 
 	@GetMapping("/{backlog_id}")
 	public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlog_id){
-
 		return projectTaskService.findBacklogById(backlog_id);
 
 	}
 	
 	@GetMapping("/{backlog_id}/{pt_id}")
 	public ResponseEntity<?> getProjectTask(@PathVariable String backlog_id,@PathVariable String pt_id){
-		
+		System.out.print("Calling THIS"+pt_id);
 		ProjectTask projectTask=projectTaskService.findPTByProjectSequence(backlog_id,pt_id);
 		return new ResponseEntity<ProjectTask>(projectTask,HttpStatus.OK);
 		

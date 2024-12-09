@@ -1,6 +1,9 @@
 package com.acs560.devtrack.domain;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import org.springframework.data.redis.core.RedisHash;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,7 +25,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class ProjectTask {
+public class ProjectTask implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

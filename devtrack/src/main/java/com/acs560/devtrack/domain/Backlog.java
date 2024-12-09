@@ -1,5 +1,6 @@
 package com.acs560.devtrack.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Backlog {
+public class Backlog implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

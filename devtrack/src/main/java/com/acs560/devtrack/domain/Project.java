@@ -1,5 +1,6 @@
 package com.acs560.devtrack.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -26,7 +27,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Project {
+public class Project implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

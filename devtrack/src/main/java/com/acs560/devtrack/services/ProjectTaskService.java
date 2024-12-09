@@ -1,8 +1,14 @@
 package com.acs560.devtrack.services;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.acs560.devtrack.Exceptions.ProjectNotFoundException;
@@ -26,7 +32,6 @@ public class ProjectTaskService {
 	private ProjectRepository projectRepository;
 
 
-
 	public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
 		try {
 			Backlog backlog=backlogRepository.findByProjectIdentifier(projectIdentifier);
@@ -40,19 +45,20 @@ public class ProjectTaskService {
 			backlog.setPTSequence(BacklogSequence);
 			projectTask.setProjectSequence(projectIdentifier+"-"+BacklogSequence);
 			projectTask.setProjectIdentifier(projectIdentifier);
-
-			if(projectTask.getPriority()==null) {
+//			System.out.println(projectTask);
+//			System.out.println("#######");
+			if(projectTask.getPriority()==0) {
 				projectTask.setPriority(3);
 			}
 			if (projectTask.getStatus()==""||projectTask.getStatus()==null) {
-				projectTask.setStatus("TODO");
+				projectTask.setStatus("TO_DO");
 			}
+//			System.out.println(projectTask);
+//			System.out.println("********");
 			return projectTaskRepository.save(projectTask);
 		} catch(Exception e) {
 			throw new ProjectNotFoundException("Project Not Found");
 		}
-
-
 	}
 
 	public Iterable<ProjectTask> findBacklogById(String id){
@@ -96,11 +102,10 @@ public class ProjectTaskService {
 	
 	public void deletePTByProjectSequence(String backlog_id,String pt_id) {
 		ProjectTask projectTask=findPTByProjectSequence(backlog_id,pt_id);
-//		Backlog backlog=projectTask.getBacklog();
-//		List<ProjectTask> pts=backlog.getProjectTasks();
-//		pts.remove(projectTask);
-		
-//		backlogRepository.save(backlog);
+		Backlog backlog=projectTask.getBacklog();
+		List<ProjectTask> pts=backlog.getProjectTasks();
+		pts.remove(projectTask);
+		backlogRepository.save(backlog);
 		projectTaskRepository.delete(projectTask);
 	}
 
