@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 
 class Dashboard extends Component {
   componentDidMount() {
-    this.props.getProjects();
+    this.props.getProjects(); // Fetch the projects when the component mounts
   }
 
   render() {
-    const { projects } = this.props.project;
+    const { projects } = this.props.project; // Destructure the 'projects' array from the Redux store's project state
     return (
       <div className="projects">
         <div className="container">
@@ -34,15 +34,18 @@ class Dashboard extends Component {
   }
 }
 
+// Define the prop types for the Dashboard component
 Dashboard.propTypes = {
   project: PropTypes.object.isRequired,
   getProjects: PropTypes.func.isRequired
 };
 
+// Map the state from the Redux store to the component's props
 const mapStateToProps = state => ({
   project: state.project
 });
 
+// Connect the Dashboard component to the Redux store and pass the getProjects action as a prop
 export default connect(
   mapStateToProps,
   { getProjects }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { addProjectTask } from "../../../actions/backlogActions";
@@ -6,8 +6,11 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 
 const AddProjectTask = ({ addProjectTask, errors }) => {
-  const { id } = useParams();
+  const { id } = useParams(); // Extracts the project ID from the URL parameters
   const navigate = useNavigate();
+
+   // State for handling form data and success popup visibility
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const [state, setState] = useState({
     summary: "",
@@ -19,10 +22,27 @@ const AddProjectTask = ({ addProjectTask, errors }) => {
     errors: {}
   });
 
+   // Handles input changes and updates the state
   const onChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
+    // Handles the success popup close action
+  const handlePopupClose = () => {
+    setShowSuccessPopup(false);
+    // Redirect to Dashboard
+    navigate(`/projectBoard/${id}`);
+  };
+
+   // Runs when the errors prop changes to handle success popup visibility
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && state.summary!== "") {
+      // If there are no errors, show success popup
+      setShowSuccessPopup(true);
+    } 
+  }, [errors]);
+
+  // Handles the form submission to create a new project task
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -103,6 +123,17 @@ const AddProjectTask = ({ addProjectTask, errors }) => {
           </div>
         </div>
       </div>
+            {/* Success Popup */}
+            {showSuccessPopup && (
+          <div className="popup">
+            <div className="popup-inner">
+              <h3>Project Task Added Successfully!</h3>
+              <button onClick={handlePopupClose} className="btn btn-success">
+                OK
+              </button>
+        </div>
+  </div>
+)}
     </div>
   );
 };
@@ -112,8 +143,10 @@ AddProjectTask.propTypes = {
   errors: PropTypes.object.isRequired
 };
 
+// Maps Redux state to component props
 const mapStateToProps = (state) => ({
   errors: state.errors
 });
 
+// Connects the component to Redux and binds the addProjectTask action
 export default connect(mapStateToProps, { addProjectTask })(AddProjectTask);

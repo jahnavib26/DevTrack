@@ -7,12 +7,15 @@ import classnames from 'classnames';
 // Actions
 import { getProject, createProject } from '../../actions/projectActions';
 
+// UpdateProject component for updating an existing project
 function UpdateProject({ 
   getProject, 
   createProject, 
   project, 
   errors 
 }) {
+
+  // State to manage project data locally
   const [projectState, setProjectState] = useState({
     id: '',
     projectName: '',
@@ -22,12 +25,16 @@ function UpdateProject({
     end_date: ''
   });
 
-  const { id } = useParams();
-  const navigate = useNavigate();
 
-  // Similar to componentWillReceiveProps
+    // State to handle success popup visibility
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const navigate = useNavigate(); 
+
+  const { id } = useParams();
+
+
+    // Update local project state when the project prop is updated
   useEffect(() => {
-    // When project is loaded from Redux, update local state
     if (project) {
       setProjectState({
         id: project.id || '',
@@ -40,11 +47,12 @@ function UpdateProject({
     }
   }, [project]);
 
-  // Initial project load
+   // Fetch the project details when the component is mounted or when the ID changes
   useEffect(() => {
     getProject(id, navigate);
   }, [id, getProject, navigate]);
 
+   // Handle form input changes and update local state
   const onChange = (e) => {
     setProjectState({
       ...projectState,
@@ -52,6 +60,16 @@ function UpdateProject({
     });
   };
 
+   // Display the success popup if there are no errors and required fields are filled
+  useEffect(() => {
+    if (errors) {
+ if (Object.keys(errors).length === 0 && projectState.description!== "" && projectState.projectIdentifier!== "" && projectState.projectName!== "") {
+  setShowSuccessPopup(true);
+}
+    }
+  }, [errors]);
+
+ // Handle form submission and update the project
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -65,6 +83,22 @@ function UpdateProject({
     };
 
     createProject(updateProject, navigate);
+  
+  };
+
+    // Close the success popup and reset form state
+  const handlePopupClose = () => {
+    setProjectState({
+      projectName: "",
+      projectIdentifier: "",
+      description: "",
+      start_date: "",
+      end_date: ""
+    });
+    setShowSuccessPopup(false);
+
+    // Redirect to Dashboard
+    navigate("/dashboard");
   };
 
   return (
@@ -144,10 +178,24 @@ function UpdateProject({
           </div>
         </div>
       </div>
+                {/* Success Popup */}
+                {showSuccessPopup && (
+            <div className="popup">
+              <div className="popup-inner">
+                <h3>Project Updated Successfully!</h3>
+                <button onClick={handlePopupClose} className="btn btn-success">
+                  OK
+                </button>
+              </div>
+            </div>
+          )}
     </div>
+
+
   );
 }
 
+// PropTypes for validating component props
 UpdateProject.propTypes = {
   getProject: PropTypes.func.isRequired,
   createProject: PropTypes.func.isRequired,
@@ -155,11 +203,13 @@ UpdateProject.propTypes = {
   errors: PropTypes.object.isRequired
 };
 
+// Mapping Redux state to component props
 const mapStateToProps = state => ({
   project: state.project.project,
   errors: state.errors
 });
 
+// Connecting the component to Redux store and actions
 export default connect(
   mapStateToProps,
   { getProject, createProject }

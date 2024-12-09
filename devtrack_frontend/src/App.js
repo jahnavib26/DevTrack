@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -12,6 +13,7 @@ import AddProjectTask from "./components/ProjectBoard/ProjectTasks/AddProjectTas
 import UpdateProjectTask from "./components/ProjectBoard/ProjectTasks/UpdateProjectTask";
 
 class App extends Component {
+  // Main application component that renders the layout and routes
   render() {
     return (
       <Provider store={store}>

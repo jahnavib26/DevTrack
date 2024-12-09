@@ -4,7 +4,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { deleteProject } from "../../actions/projectActions";
 
+// ProjectItem component displays a single project with actions to view, update, or delete it
 class ProjectItem extends Component {
+    // Method to handle the deletion of a project
+  // Calls the deleteProject action with the project's identifier
   onDeleteClick = id => {
     this.props.deleteProject(id);
   };
@@ -53,10 +56,12 @@ class ProjectItem extends Component {
   }
 }
 
+// PropTypes for type-checking and ensuring deleteProject is passed as a required function
 ProjectItem.propTypes = {
   deleteProject: PropTypes.func.isRequired
 };
 
+// Export the component, connecting it to the Redux store with the deleteProject action
 export default connect(
   null,
   { deleteProject }

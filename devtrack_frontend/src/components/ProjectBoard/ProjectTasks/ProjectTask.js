@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 class ProjectTask extends Component {
+    // Method to handle the delete button click
   onDeleteClick(backlog_id, pt_id) {
     this.props.deleteProjectTask(backlog_id, pt_id);
   }
@@ -13,6 +14,7 @@ class ProjectTask extends Component {
     let priorityString;
     let priorityClass;
 
+    // Determines the priority level and assigns corresponding class and string
     if (project_task.priority === 1) {
       priorityClass = "bg-danger text-light";
       priorityString = "HIGH";
@@ -63,9 +65,12 @@ class ProjectTask extends Component {
   }
 }
 
+// Specifies the types of props that the component expects
 ProjectTask.propTypes = {
   deleteProjectTask: PropTypes.func.isRequired
 };
+
+// Connects the component to the Redux store and binds the deleteProjectTask action
 export default connect(
   null,
   { deleteProjectTask }

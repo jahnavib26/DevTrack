@@ -63,3 +63,59 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Slightly transparent overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-inner {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  max-width: 400px; /* Restrict width */
+  width: 90%; /* Responsive width */
+  animation: popup-show 0.3s ease-in-out; /* Optional animation */
+}
+
+.popup-inner h3 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.popup-inner button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #28a745; /* Green button */
+  color: #fff;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.popup-inner button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Optional keyframe animation for popup */
+@keyframes popup-show {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

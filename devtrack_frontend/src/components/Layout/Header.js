@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 
+// Header component that represents the navigation bar of the application
 class Header extends Component {
   render() {
     return (
+        // Navigation bar with Bootstrap classes for styling
       <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
         <div className="container">
           <a className="navbar-brand" href="Dashboard.html">
