@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import "./App1.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -11,6 +12,7 @@ import UpdateProject from "./components/Project/UpdateProject";
 import ProjectBoard from "./components/ProjectBoard/ProjectBoard";
 import AddProjectTask from "./components/ProjectBoard/ProjectTasks/AddProjectTask";
 import UpdateProjectTask from "./components/ProjectBoard/ProjectTasks/UpdateProjectTask";
+import PersonalProjectManagementToolHomePage from "./components/PersonalProjectManagementToolHomePage";
 
 class App extends Component {
   // Main application component that renders the layout and routes
@@ -21,6 +23,7 @@ class App extends Component {
           <div className="App">
             <Header />
             <Routes>
+              <Route path="/" element={< PersonalProjectManagementToolHomePage/>} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/addProject" element={<AddProject />} />
               <Route path="/updateProject/:id" element={<UpdateProject />} />
